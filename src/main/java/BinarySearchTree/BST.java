@@ -2,6 +2,10 @@ package BinarySearchTree;
 
 //PRACTICE FROM UDEMY
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BST {
 
     private Node root;
@@ -172,28 +176,108 @@ public class BST {
         I see a couple of ways to do this. Either traverse through the tree to find the depth I can have the appropriate number of rows in a 2D array, then find the largest breadth of the tree to make the rows of equal length. Then print "" for each space not occupied and put the key in the appropriate place.
         Another option available would be to simply use a combo of print and println, but that wouldn't necessarily look "as a tree" when printed.
          */
-        public int displayTree(){
+        public String displayTree(){
+
+//            System.out.println("Cycle Through = " + cycleThrough(root));
 
             Node current = root;
 
-            return findLeaves(root);
+            if(root == null) {
+                return null;
+            }
 
-//            return findLeaves(this.root);
+            String[][] treeArray = new String[findHeight(root)][findLeaves(root)];
+            int half = findLeaves(root)/2;
+            for (int row = 0; row < treeArray.length; row++) {
+
+                cycleThrough(current.leftChild);
+                cycleThrough(current.rightChild);
+                String key = current.key+" ";
+
+
+                for (int col = 0; col < treeArray[row].length; col++) {
+                    treeArray[row][col] = key;
+//                    if(current == root) {
+//                        if (col == half) {
+//                            treeArray[row][col] = key;
+//                        } else {
+//                            treeArray[row][col] = "-";
+//
+//                        }
+//
+//                    } else if (col > 0){
+//                        treeArray[row][col] = key;
+//
+//
+//                    }
+                }
+            }
+
+            return Arrays.deepToString(treeArray);
+
         }
 
-        public int findLeaves(Node current) {
+        private int findLeaves(Node current) {
 
-            if(root == null) {
+            if(current == null) {
                 return 0;
             }
 
             if (null == current.leftChild && null == current.rightChild) {
-//                System.out.println(current.key);
                 return 1;
             } else {
                 return findLeaves(current.leftChild) + findLeaves(current.rightChild);
             }
+        }
 
+
+        private int findHeight(Node current) {
+            if(current == null) {
+                return 0;
+            } else {
+            int leftmax = findHeight(current.leftChild);
+            int rightmax = findHeight(current.rightChild);
+
+            return Math.max(leftmax, rightmax)+1;
+            }
+
+        }
+
+        public String cycleThrough(Node current) {
+            if (current == null){
+                return null;
+            }
+
+            System.out.print(current.key+" ");
+            System.out.println();
+            cycleThrough(current.leftChild);
+            cycleThrough(current.rightChild);
+
+            System.out.println();
+
+            return current.key+"";
+        }
+
+        public void breadthFirstPrinting(){
+            Queue<Node> qq = new LinkedList<>();
+            StringBuffer buffer = new StringBuffer();
+            int leftlevel = 0;
+            int rightlevel = 0;
+
+            qq.add(root);
+
+            while(!qq.isEmpty()) {
+                Node tempNode = qq.poll();
+                System.out.println(tempNode.key);
+
+                if (tempNode.leftChild != null) {
+                    qq.add(tempNode.leftChild);
+                }
+                if (tempNode.rightChild != null) {
+                    qq.add(tempNode.rightChild);
+                }
+
+            }
         }
 
 }

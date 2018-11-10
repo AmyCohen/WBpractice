@@ -20,13 +20,15 @@ public class Application {
 
 //        System.out.println("Remove Node: " + tree.remove(2)); //should print true;
 //        System.out.println("New Min: " + tree.findMin().key); //15
-
-        System.out.println("Display Tree: ");
-        tree.displayTree();
-
+//
+//        System.out.println("Display Tree: ");
+//        System.out.println(tree.displayTree());
+//
 //        System.out.println("Print out leaves: ");
-//        tree.findLeaves(tree.findRoot(), 0);
+//        System.out.println(tree.findLeaves(tree.findRoot()));
 
+
+        tree.breadthFirstPrinting();
     }
 
 
